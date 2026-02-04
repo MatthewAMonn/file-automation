@@ -3,16 +3,26 @@ from pathlib import Path
 from src import file_automation
 
 
+source_directory = Path("C:/Users/13605/Downloads/")
+destination_directory_docs = Path("C:/Users/13605/Downloads/DL_Docs/")
+destination_directory_images = Path("C:/Users/13605/Downloads/DL_Images/")
+destination_directory_apps = Path("C:/Users/13605/Downloads/DL_Apps")
+destination_directory_videos = Path("C:/Users/13605/Downloads/DL_Videos/")
+destination_directory_spreadsheets = Path(
+    "C:/Users/13605/Downloads/DL_Spreadsheets/")
+destination_directory_misc = Path("C:/Users/13605/Downloads/DL_Misc/")
+
+
 @pytest.mark.parametrize(
     "directory, expected_result",
     [
-        (file_automation.source_directory, True),
-        (file_automation.destination_directory_docs, True),
-        (file_automation.destination_directory_images, True),
-        (file_automation.destination_directory_apps, True),
-        (file_automation.destination_directory_videos, True),
-        (file_automation.destination_directory_spreadsheets, True),
-        (file_automation.destination_directory_misc, True),
+        (source_directory, True),
+        (destination_directory_docs, True),
+        (destination_directory_images, True),
+        (destination_directory_apps, True),
+        (destination_directory_videos, True),
+        (destination_directory_spreadsheets, True),
+        (destination_directory_misc, True),
         (Path("C:/Fake/Path/"), False),
         (Path(""), False),
         (Path(), False)
