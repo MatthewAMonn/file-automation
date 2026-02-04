@@ -1,23 +1,6 @@
 # Provides a way for file and directory operations, such as copying and moving.
 from pathlib import Path
-
-# Global variables for folder to be organized and the locations for all folders that will have files moved into them
-source_directory = Path("C:/Users/13605/Downloads/")
-destination_directory_docs = Path("C:/Users/13605/Downloads/DL_Docs/")
-destination_directory_images = Path("C:/Users/13605/Downloads/DL_Images/")
-destination_directory_apps = Path("C:/Users/13605/Downloads/DL_Apps")
-destination_directory_videos = Path("C:/Users/13605/Downloads/DL_Videos/")
-destination_directory_spreadsheets = Path(
-    "C:/Users/13605/Downloads/DL_Spreadsheets/")
-destination_directory_misc = Path("C:/Users/13605/Downloads/DL_Misc/")
-
-# Global lists for file extensions that fall under a set type, like txt and pdf for documents.
-docs_list = ["pdf", "txt", "doc", "docx", "odt", "rtf", ]
-images_list = ["png", "jpg", "jpeg", "gif",
-               "tiff", "webp", "svg", "raw", "heif"]
-apps_list = ["exe", "app", "msi", "pkg", "bat", "sh", "ps1"]
-videos_list = ["mp4", "mov", "mkv", "avi", "wmv"]
-spreadsheets_list = ["xlsx", "xls", "csv"]
+import constants
 
 
 def check_directory_is_valid(directory: Path):
@@ -39,20 +22,13 @@ def check_directory_is_valid(directory: Path):
         return False
 
 
-# def move_files():
-    # for item in source_directory.iterdir():
-        # if item.is_file():
-
-        # print(item.name)
-        # print(get_file_extension(item.name))
-        # if file name is a document, like .PDF and .txt, move file to destination_directory_docs
-
-        # if file name is an image, like .jpg and .png, move file to destination_directory_images
-        # code
-        # if file name is a program, like .exe, move file to destination_directory_apps
-        # code
-        # if file name is a video, like PDF and .txt, move file to destination_directory_videos
-        # code
+def move_files():
+    source_directory = get_source_directory()
+    for file in source_directory.iterdir():
+        if file.is_file():
+            file_extension = get_file_extension(file)
+            destination_directory = get_destination_directory(file_extension)
+            move_file(file, source_directory, destination_directory)
 
 
 def get_file_extension(file_name: str):
@@ -60,6 +36,25 @@ def get_file_extension(file_name: str):
     last_index = file_name.rfind(char_to_find)
     file_extension = file_name[last_index+1:]
     return file_extension.lower()
+
+
+def get_source_directory():
+    return constants.source_directory
+
+
+def get_destination_directory(file_type: str):
+    if file_type in constants.list_apps:
+        return constants.destination_directory_apps
+    elif file_type in constants.list_docs:
+        return constants.destination_directory_docs
+    elif file_type in constants.list_images:
+        return constants.list_images
+    elif file_type in constants.list_spreadsheets:
+        return constants.destination_directory_spreadsheets
+    elif file_type in constants.list_videos:
+        return constants.destination_directory_videos
+    else:
+        return constants.destination_directory_misc
 
 
 def move_file(file_name: str, start_directory: Path, end_directory: Path):
@@ -87,13 +82,3 @@ def move_file(file_name: str, start_directory: Path, end_directory: Path):
 
 
 # move_files()
-
-
-"""
-format for moving a file
-
-if file extension exists in a list, all other than misc will have a list
-    then 
-
-
-"""
