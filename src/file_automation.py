@@ -26,3 +26,40 @@ def check_directory_is_valid(directory: Path):
     else:
         print(f"Error: Directory {directory} does not exist.")
         return False
+
+# first iteration will use only file extensions to check what type of file is being looked at
+
+
+def move_files():
+    for item in download_directory.iterdir():
+        if item.is_file():
+            print(item.name)
+            print(get_file_extension(item.name))
+            # if file name is a document, like .PDF and .txt, move file to destination_directory_docs
+
+            # if file name is an image, like .jpg and .png, move file to destination_directory_images
+            # code
+            # if file name is a program, like .exe, move file to destination_directory_apps
+            # code
+            # if file name is a video, like PDF and .txt, move file to destination_directory_videos
+            # code
+
+
+def get_file_extension(file_name: str):
+    char_to_find = "."
+    last_index = file_name.rfind(char_to_find)
+    file_extension = file_name[last_index:]
+    return file_extension.lower()
+
+
+move_files()
+
+
+"""
+format for moving a file
+
+if file extension exists in a list, all other than misc will have a list
+    then 
+
+
+"""
