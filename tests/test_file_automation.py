@@ -6,12 +6,13 @@ from src import file_automation
 @pytest.mark.parametrize(
     "directory, expected_result",
     [
-        (Path("C:/Users/13605/Downloads/"), True),
-        (Path("C:/Users/13605/Downloads/DL_Docs/"), True),
-        (Path("C:/Users/13605/Downloads/DL_Images/"), True),
-        (Path("C:/Users/13605/Downloads/DL_Apps"), True),
-        (Path("C:/Users/13605/Downloads/DL_Videos/"), True),
-        (Path("C:/Users/13605/Downloads/DL_Misc/"), True),
+        (file_automation.source_directory, True),
+        (file_automation.destination_directory_docs, True),
+        (file_automation.destination_directory_images, True),
+        (file_automation.destination_directory_apps, True),
+        (file_automation.destination_directory_videos, True),
+        (file_automation.destination_directory_spreadsheets, True),
+        (file_automation.destination_directory_misc, True),
         (Path("C:/Fake/Path/"), False),
         (Path(""), False),
         (Path(), False)
