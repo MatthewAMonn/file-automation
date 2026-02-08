@@ -1,4 +1,3 @@
-# Provides a way for file and directory operations, such as copying and moving.
 from pathlib import Path
 import constants
 
@@ -22,42 +21,81 @@ def check_directory_is_valid(directory: Path):
         return False
 
 
-def move_files():
-    source_directory = get_source_directory()
-    for file in source_directory.iterdir():
-        if file.is_file():
-            file_extension = get_file_extension(file)
-            destination_directory = get_destination_directory(file_extension)
-            move_file(file, source_directory, destination_directory)
+def get_file_extension(file_path: Path):
+    """Given a file's path, returns the extension of the file.
 
+    Args:
+        file_path (Path): Path of the file that has been requested to have its extension returned
 
-def get_file_extension(file_name: str):
+    Returns:
+        str: File's extension
+    """
     char_to_find = "."
-    last_index = file_name.rfind(char_to_find)
-    file_extension = file_name[last_index+1:]
+    path_as_string = file_path.as_posix()
+    last_index = path_as_string.rfind(char_to_find)
+    file_extension = path_as_string[last_index+1:]
     return file_extension.lower()
 
 
+def get_file_name_from_path(file_path: Path):
+    """Given a file's path, returns the file name
+
+    Args:
+        file_path (Path): Path of the file that has been requested to have its extension returned
+
+    Returns:
+        _type_: File's name
+    """
+    char_to_find = "/"
+    path_as_string = file_path.as_posix()
+    last_index = path_as_string.rfind(char_to_find)
+    file_name = path_as_string[last_index+1:]
+    return file_name
+
+
 def get_source_directory():
+    """Returns hard coded source directory from the constants.py file
+
+    Returns:
+        Path: Source directory from the constants.py file
+    """
     return constants.source_directory
 
 
-def get_destination_directory(file_type: str):
-    if file_type in constants.list_apps:
+def get_destination_directory(file_extension: str):
+    """Based on the file extension given, returns directory's path from constants.py
+
+    Args:
+        file_extension (str): Extension of a file, helped to determine which folder the file will be moved to
+
+    Returns:
+        Path: Path from the constants.py file
+    """
+    if file_extension in constants.list_apps:
         return constants.destination_directory_apps
-    elif file_type in constants.list_docs:
+    elif file_extension in constants.list_docs:
         return constants.destination_directory_docs
-    elif file_type in constants.list_images:
-        return constants.list_images
-    elif file_type in constants.list_spreadsheets:
+    elif file_extension in constants.list_images:
+        return constants.destination_directory_images
+    elif file_extension in constants.list_spreadsheets:
         return constants.destination_directory_spreadsheets
-    elif file_type in constants.list_videos:
+    elif file_extension in constants.list_videos:
         return constants.destination_directory_videos
     else:
         return constants.destination_directory_misc
 
 
 def move_file(file_name: str, start_directory: Path, end_directory: Path):
+    """Given a file path, moves that file from a source directory to a destination directory
+
+    Args:
+        file_name (str): File to be moved
+        start_directory (Path): Source directory of the file
+        end_directory (Path): Destination directory of the file
+
+    Returns:
+        str: Console message that could be used for testing purposes.
+    """
     start_directory_full_path = start_directory / file_name
     end_directory_full_path = end_directory / file_name
     console_message = ""
@@ -81,4 +119,23 @@ def move_file(file_name: str, start_directory: Path, end_directory: Path):
         return console_message
 
 
-# move_files()
+def move_files():
+    """Function moves files from a source folder to another folder based on their file extension
+
+    """
+    source_directory = get_source_directory()
+    if check_directory_is_valid(source_directory) == True:
+        for file_path in source_directory.iterdir():
+            if file_path.is_file():
+                file_name = get_file_name_from_path(file_path)
+                file_extension = get_file_extension(file_path)
+                destination_directory = get_destination_directory(
+                    file_extension)
+                move_file(file_name, source_directory,
+                          destination_directory)
+    else:
+        console_message = f"Error: Source directory '{source_directory}' does not exist."
+        print(console_message)
+
+
+move_files()
