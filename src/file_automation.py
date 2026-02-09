@@ -1,15 +1,17 @@
 from pathlib import Path
 import constants
+import time
 
 
 def check_directory_is_valid(directory: Path):
-    """Checks if a directory exists or not
+    """
+    Checks if a directory exists or not
 
     Args:
-        directory (string): Path of a directory
+        directory (string): Path of the directory
 
     Returns:
-        boolean: Provides True or False if directory exists
+        bool: If the directory exists or not
     """
     if str(directory) == '.':
         print("Error: An empty directory was provided")
@@ -22,7 +24,8 @@ def check_directory_is_valid(directory: Path):
 
 
 def get_file_extension(file_path: Path):
-    """Given a file's path, returns the extension of the file.
+    """
+    Given a file's path, returns the extension of the file.
 
     Args:
         file_path (Path): Path of the file that has been requested to have its extension returned
@@ -38,13 +41,14 @@ def get_file_extension(file_path: Path):
 
 
 def get_file_name_from_path(file_path: Path):
-    """Given a file's path, returns the file name
+    """
+    Given a file's path, returns the file name
 
     Args:
         file_path (Path): Path of the file that has been requested to have its extension returned
 
     Returns:
-        _type_: File's name
+        Path: File's name
     """
     char_to_find = "/"
     path_as_string = file_path.as_posix()
@@ -54,7 +58,8 @@ def get_file_name_from_path(file_path: Path):
 
 
 def get_source_directory():
-    """Returns hard coded source directory from the constants.py file
+    """
+    Returns hard coded source directory from the constants.py file
 
     Returns:
         Path: Source directory from the constants.py file
@@ -63,7 +68,8 @@ def get_source_directory():
 
 
 def get_destination_directory(file_extension: str):
-    """Based on the file extension given, returns directory's path from constants.py
+    """
+    Based on the file extension given, returns directory's path from constants.py
 
     Args:
         file_extension (str): Extension of a file, helped to determine which folder the file will be moved to
@@ -86,7 +92,8 @@ def get_destination_directory(file_extension: str):
 
 
 def move_file(file_name: str, start_directory: Path, end_directory: Path):
-    """Given a file path, moves that file from a source directory to a destination directory
+    """
+    Given a file path, moves that file from a source directory to a destination directory
 
     Args:
         file_name (str): File to be moved
@@ -120,8 +127,8 @@ def move_file(file_name: str, start_directory: Path, end_directory: Path):
 
 
 def move_files():
-    """Function moves files from a source folder to another folder based on their file extension
-
+    """
+    Function moves files from a source folder to another folder based on their file extension
     """
     source_directory = get_source_directory()
     if check_directory_is_valid(source_directory) == True:
@@ -138,4 +145,27 @@ def move_files():
         print(console_message)
 
 
-move_files()
+def countdown_timer():
+    """
+    Simple countdown timer function to show in the terminal that the script will be running soon. 
+    Not really needed, but I wanted it as another indicator that the project is working correctly.
+    """
+    for time_remaining in range(5, 0, -1):
+        timer_format = '{:2d}'.format(time_remaining)
+        print(
+            f"\rScript will run in:{timer_format} seconds", end="", flush=True)
+        time.sleep(1)
+
+
+def main():
+    """
+    Runs main block of code
+    """
+    print(
+        f"Hello! This program will sort all files from directory '{constants.source_directory}' into designated folders within python file constants.py")
+    countdown_timer()
+    move_files()
+    print("Script has finished running, please close out the program")
+
+
+main()
